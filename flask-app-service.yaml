@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: flask-app-service
 spec:
-  type: NodePort  # Changed from ClusterIP to NodePort
+  type: NodePort
   selector:
     app: flask-app
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 5000
-      nodePort: 30007  # Optional: This specifies the port, or you can let Kubernetes assign one.
+      port: 5000  # External port (on NodePort) should match the Flask app's container port
+      targetPort: 5000  # The internal port Flask is listening on
+      nodePort: 30007  # Optional: This specifies the node port, or let Kubernetes assign one
