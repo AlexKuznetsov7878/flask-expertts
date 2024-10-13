@@ -12,3 +12,4 @@ docker push summaryexperts/flask-app:v1
 argocd login localhost:8080 - admin
 Generate a github repo
 argocd app create flask-app --repo https://github.com/your-username/your-flask-app-repo.git --path . --dest-server https://kubernetes.default.svc --dest-namespace default
+argocd app sync flask-app
