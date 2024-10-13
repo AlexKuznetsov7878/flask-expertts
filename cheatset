@@ -1,0 +1,14 @@
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl get pods -n argocd
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+curl -sSL -o argocd.exe https://github.com/argoproj/argo-cd/releases/latest/download/argocd-windows-amd64.exe
+move argocd.exe C:\Windows\System32\
+argocd version
+docker build -t flask-app .
+docker tag flask-app summaryexperts/flask-app:v1
+docker push summaryexperts/flask-app:v1
+argocd login localhost:8080 - admin
+Generate a github repo
+argocd app create flask-app --repo https://github.com/your-username/your-flask-app-repo.git --path . --dest-server https://kubernetes.default.svc --dest-namespace default
